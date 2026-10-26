@@ -1,6 +1,6 @@
 # Desplegar Nexo en Render
 
-El código está preparado para un Web Service de Node 24 con un disco persistente. No se ha desplegado ni probado contra Render o Google en esta sesión: se necesitan acceso a la cuenta de Render, las credenciales OAuth de Google. El dominio autorizado ya está definido como `timhortonsmx.com` y el PM administrador como `omar.pena@timhortonsmx.com`.
+El código está preparado para un Web Service de Node 24 con un disco persistente. No se ha desplegado ni probado contra Render o Google en esta sesión: se necesitan acceso a la cuenta de Render y las credenciales OAuth de Google. El dominio autorizado ya está definido como `timhortonsmx.com` y el PM administrador como `omar.pena@timhortonsmx.com`.
 
 ## 1. Preparar Google Workspace
 
@@ -16,8 +16,8 @@ El servidor valida el ID token de Google, el correo verificado y el claim `hd` d
 
 ## 2. Crear el servicio
 
-1. Sube los archivos al repositorio `omarpena-dev/pmsystemth` en GitHub.
-2. En [Render Dashboard](https://dashboard.render.com/), selecciona **New → Blueprint**, conecta el repositorio y revisa `render.yaml`.
+1. El código está publicado en la rama `codex/nexo-project-manager` de `omarpena-dev/pmsystemth`. Puedes usar esa rama para las pruebas o integrar sus cambios en `main` antes de desplegar.
+2. En [Render Dashboard](https://dashboard.render.com/), selecciona **New → Blueprint**, conecta el repositorio, selecciona la rama `codex/nexo-project-manager` (o `main` si ya integraste los cambios) y revisa `render.yaml`.
 3. El blueprint solicita **Starter y disco persistente de 1 GB**, que tienen coste. Revisa la tarifa vigente y el resumen de Render antes de crear recursos. No se ha contratado ningún recurso desde esta sesión.
 4. Completa las variables pendientes:
 
@@ -56,3 +56,9 @@ La prueba local no reemplaza esta comprobación después del despliegue:
 - Los eventos de Calendar se sincronizan manualmente, por usuario y tarea. Eliminar una tarea o desconectar Google **no elimina eventos ya creados**. No hay sincronización bidireccional ni en segundo plano.
 - Los usuarios ven los mismos proyectos del espacio interno. No hay aislamiento por proyecto, gestión de invitados, dependencias Gantt ni facturación. El presupuesto se registra manualmente en MXN; las horas son estimaciones pendientes, no partes de tiempo.
 - No se incluyen correos o invitaciones automáticas: los miembros se incorporan al iniciar sesión con su cuenta corporativa.
+
+## Continuar desde este entorno de Codex
+
+Se guardó un borrador con `install_script`, `start_skill`, dominio, correo del PM y requisitos para `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` y `RENDER_API_KEY`. Completa los valores en Configuración del entorno, revisa los destinos de red, guarda y publica el entorno de Codex. No publiques secretos en el chat o en el repositorio. Este paso no despliega la app en Render.
+
+La red de esta sesión rechazó el acceso a `api.render.com` y `dashboard.render.com` con 403. El borrador incorpora esos destinos y los de Google y las referencias solicitadas; guardar el borrador no aplica las reglas al proceso actual. Cuando la configuración se aplique, debe volver a comprobarse el acceso. La API de GitHub también rechazó acceso en esta sesión, pero la autenticación Git HTTPS permitió subir la rama; no se creó un pull request.
