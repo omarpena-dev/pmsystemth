@@ -9,6 +9,9 @@ Aplicación web de gestión de proyectos para un PM y su equipo interno. Interfa
 - Tareas en Kanban y lista, responsables, prioridades, estimaciones, búsqueda y filtros.
 - Cambio de estado mediante selector o arrastrando tarjetas, comentarios persistentes y exportación CSV.
 - Cronograma de tareas, equipo y esfuerzo pendiente por persona.
+- Checklist de subtareas, dependencias sin ciclos y bloqueo de transiciones hasta completar predecesoras.
+- Hitos de proyecto administrados por el PM y registro de tiempo por persona y fecha.
+- Reportes por proyecto y portafolio: avance, tareas vencidas/bloqueadas, presupuesto y horas estimadas frente a registradas.
 - Google Workspace: OAuth restringido al dominio, roles PM/miembro, búsqueda y enlaces de Drive, creación/actualización manual de eventos de Calendar.
 - SQLite persistente, sesiones del servidor, cookies HTTP-only, protección CSRF, validación de entrada, cifrado de tokens y cabeceras de seguridad.
 
@@ -40,7 +43,9 @@ npm run test:e2e
 
 Las pruebas de API usan bases temporales. Playwright necesita Chromium: usa el del sistema si existe, o instala uno con `npx playwright install chromium`. También puedes indicar `PLAYWRIGHT_CHROMIUM_EXECUTABLE=/ruta/a/chromium`. Los tests de navegador crean su propio servidor y base temporal.
 
-Las pruebas cubren autenticación, CSRF, permisos, validaciones, proyectos/tareas/comentarios, persistencia, restricciones de producción, recorrido del PM y vista móvil. OAuth y las APIs de Google requieren una prueba real con credenciales; las pruebas locales verifican el manejo explícito de una cuenta no conectada.
+Las pruebas cubren autenticación, CSRF, permisos, validaciones, proyectos/tareas/comentarios, persistencia y migración de datos, dependencias y ciclos, checklist, hitos, horas y permisos de autor, restricciones de producción, recuperación OAuth tras rotar claves, cambios parciales de estado, recorrido del PM y vista móvil. OAuth y las APIs de Google requieren una prueba real con credenciales; las pruebas locales verifican el manejo explícito de una cuenta no conectada.
+
+Consulta [la guía de planificación y reportes](docs/PLANNING.md) para conocer las reglas de subtareas, dependencias, horas e hitos.
 
 ## Render y Google
 

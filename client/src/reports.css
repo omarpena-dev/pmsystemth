@@ -1,0 +1,254 @@
+.reports-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 24px;
+}
+.reports-toolbar > label {
+  display: grid;
+  gap: 7px;
+  font-size: 11px;
+  color: #777c92;
+}
+.reports-toolbar select {
+  font-size: 12px;
+  min-width: 220px;
+}
+.reports-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 26px;
+}
+.reports-stats article {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 21px;
+  background: white;
+  border: 1px solid #e6e9f1;
+  border-radius: 10px;
+}
+.reports-stats article > .soft-icon {
+  margin-bottom: 17px;
+}
+.reports-stats article > span:not(.soft-icon) {
+  font-size: 11px;
+  color: #797e94;
+  margin-bottom: 10px;
+}
+.reports-stats strong {
+  font-size: 25px;
+  letter-spacing: -1px;
+  font-weight: 600;
+  color: #45455f;
+}
+.reports-stats strong em {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  color: #9695aa;
+}
+.reports-stats small {
+  font-size: 10px;
+  line-height: 1.8;
+  color: #9296aa;
+  margin-top: 9px;
+}
+.reports-over {
+  color: #b66b5e !important;
+}
+.reports-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  white-space: nowrap;
+}
+.reports-table th {
+  padding: 13px 19px;
+  background: #fafafe;
+  color: #979bb0;
+  font-size: 10px;
+  font-weight: 500;
+  border-block: 1px solid #edf0f6;
+}
+.reports-table td {
+  padding: 18px 19px;
+  border-bottom: 1px solid #f0f1f6;
+  color: #777e93;
+  font-size: 11px;
+}
+.reports-table td > button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  text-align: left;
+  font-size: 12px;
+  color: #6f6888;
+}
+.reports-table td > button i {
+  width: 7px;
+  height: 7px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.reports-table td > button svg {
+  color: #aaa0c2;
+}
+.reports-table small {
+  display: block;
+  font-size: 10px;
+  color: #979db0;
+  margin-top: 7px;
+}
+.reports-table strong {
+  font-weight: 500;
+  font-size: 12px;
+}
+.reports-table .progress-track {
+  margin-top: 10px;
+  min-width: 95px;
+  max-width: 135px;
+  height: 4px;
+}
+.reports-note {
+  font-size: 10px;
+  line-height: 1.9;
+  color: #9196a9;
+  padding: 17px 20px;
+}
+.reports-attention {
+  margin-top: 25px;
+}
+.reports-attention > button {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  width: 100%;
+  padding: 17px 21px;
+  border-top: 1px solid #edf0f6;
+}
+.reports-attention > button:hover {
+  background: #faf9fe;
+}
+.reports-attention-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: #f4edf8;
+  color: #a08cae;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.reports-attention strong {
+  font-size: 12px;
+  font-weight: 500;
+  color: #77758e;
+}
+.reports-attention small {
+  font-size: 10px;
+  color: #a2a5b6;
+  display: block;
+  margin-top: 5px;
+}
+.reports-issue {
+  margin-left: auto;
+  font-size: 10px;
+  background: #fcf0e8;
+  color: #bc9374;
+  border-radius: 5px;
+  padding: 5px 8px;
+}
+.reports-attention > button > svg:last-child {
+  color: #aca2be;
+  flex-shrink: 0;
+}
+.reports-all-clear {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px 22px 28px;
+  color: #92ac9a;
+}
+.reports-all-clear p {
+  font-size: 11px;
+  color: #9ba3ae;
+  margin-top: 7px;
+  line-height: 1.8;
+}
+@media (max-width: 1100px) {
+  .reports-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .reports-stats article {
+    padding: 18px;
+  }
+  .reports-stats strong {
+    font-size: 26px;
+  }
+}
+@media (max-width: 650px) {
+  .reports-toolbar {
+    align-items: stretch;
+    gap: 14px;
+    flex-direction: column;
+  }
+  .reports-toolbar select {
+    min-width: 0;
+    width: 100%;
+  }
+  .reports-toolbar > .btn {
+    align-self: flex-end;
+  }
+  .reports-stats {
+    gap: 11px;
+  }
+  .reports-stats article {
+    padding: 15px 12px;
+  }
+  .reports-stats article > span:not(.soft-icon) {
+    font-size: 10px;
+    min-height: 26px;
+    line-height: 1.6;
+  }
+  .reports-stats strong {
+    font-size: 22px;
+  }
+  .reports-stats small {
+    font-size: 9px;
+  }
+  .reports-stats .soft-icon {
+    width: 32px;
+    height: 32px;
+  }
+  .reports-note {
+    font-size: 9px;
+    padding: 15px;
+    line-height: 1.9;
+  }
+  .reports-attention > button {
+    padding: 15px 13px;
+    gap: 9px;
+  }
+  .reports-attention strong {
+    font-size: 11px;
+  }
+  .reports-attention small {
+    font-size: 9px;
+  }
+  .reports-issue {
+    font-size: 8px;
+    padding: 5px;
+    white-space: nowrap;
+  }
+  .reports-all-clear {
+    padding: 14px 17px 23px;
+  }
+  .reports-all-clear p {
+    font-size: 10px;
+  }
+}

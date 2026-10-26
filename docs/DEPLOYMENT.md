@@ -45,7 +45,9 @@ La prueba local no reemplaza esta comprobación después del despliegue:
 - Guarda la tarea y pulsa **Sincronizar tarea guardada**. Comprueba en Calendar un evento de día completo desde la fecha de inicio hasta la entrega, inclusive. Repite la operación: debe actualizar el mismo evento, no duplicarlo.
 - Entra con una cuenta de miembro: puede colaborar en tareas y comentarios, pero no crear/eliminar proyectos ni eliminar tareas.
 - Exporta un CSV y verifica que contiene las tareas filtradas.
-- Prueba en móvil y cierra sesión.
+- Añade subtareas; verifica que no se permite completar la tarea hasta terminarlas. Configura una predecesora pendiente y comprueba el bloqueo de inicio.
+- Registra tiempo, crea un hito y consulta Reportes. Confirma que los totales y el CSV reflejan los datos guardados.
+- Prueba en móvil, incluida la navegación por teclado y el cierre del menú con Escape, y cierra sesión.
 
 ## Persistencia y mantenimiento
 
@@ -54,7 +56,7 @@ La prueba local no reemplaza esta comprobación después del despliegue:
 - Los tokens OAuth se cifran con AES-256-GCM usando una clave derivada de `SESSION_SECRET`. Si cambias el secreto, se invalidan las sesiones y no podrás descifrar los tokens existentes; los usuarios deberán iniciar sesión de nuevo. Conserva este valor de forma segura.
 - Configura y comprueba copias de seguridad. Para obtener una copia consistente mientras el servicio está activo, usa la API de backup de SQLite o detén el proceso antes de copiar el archivo; copiar solamente el `.sqlite` con WAL activo puede perder cambios.
 - Los eventos de Calendar se sincronizan manualmente, por usuario y tarea. Eliminar una tarea o desconectar Google **no elimina eventos ya creados**. No hay sincronización bidireccional ni en segundo plano.
-- Los usuarios ven los mismos proyectos del espacio interno. No hay aislamiento por proyecto, gestión de invitados, dependencias Gantt ni facturación. El presupuesto se registra manualmente en MXN; las horas son estimaciones pendientes, no partes de tiempo.
+- Los usuarios ven los mismos proyectos del espacio interno. No hay aislamiento por proyecto, gestión de invitados, reprogramación automática de Gantt ni facturación. Hay dependencias de orden y registro de tiempo por persona; el presupuesto se registra manualmente en MXN. Consulta [Planificación](PLANNING.md).
 - No se incluyen correos o invitaciones automáticas: los miembros se incorporan al iniciar sesión con su cuenta corporativa.
 
 ## Continuar desde este entorno de Codex

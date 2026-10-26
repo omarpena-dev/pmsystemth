@@ -1,7 +1,7 @@
 {
   "name": "nexo-pmsystemth",
   "version": "1.0.0",
-  "description": "Gestión interna de proyectos con Google Workspace",
+  "description": "Gesti\u00f3n interna de proyectos con Google Workspace",
   "directories": {
     "test": "tests"
   },
@@ -10,7 +10,7 @@
     "dev:ui": "vite",
     "build": "tsc && vite build",
     "start": "node --env-file-if-exists=.env server/index.mjs",
-    "test": "node --test tests/api.test.mjs",
+    "test": "node --test tests/*.test.mjs",
     "test:e2e": "playwright test"
   },
   "repository": {

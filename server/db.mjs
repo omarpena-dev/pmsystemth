@@ -12,7 +12,16 @@ export function openDatabase(path) {
     CREATE TABLE IF NOT EXISTS comments(id TEXT PRIMARY KEY, task_id TEXT NOT NULL REFERENCES tasks(id) ON DELETE CASCADE, user_id TEXT NOT NULL REFERENCES users(id), body TEXT NOT NULL, created_at TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS activity(id INTEGER PRIMARY KEY AUTOINCREMENT, user_id TEXT REFERENCES users(id), message TEXT NOT NULL, created_at TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS calendar_events(task_id TEXT NOT NULL REFERENCES tasks(id) ON DELETE CASCADE, user_id TEXT NOT NULL REFERENCES users(id), event_id TEXT NOT NULL, PRIMARY KEY(task_id,user_id));
-    CREATE TABLE IF NOT EXISTS sessions(sid TEXT PRIMARY KEY, data TEXT NOT NULL, expires INTEGER NOT NULL);`);
+    CREATE TABLE IF NOT EXISTS sessions(sid TEXT PRIMARY KEY, data TEXT NOT NULL, expires INTEGER NOT NULL);
+    CREATE TABLE IF NOT EXISTS checklist(id TEXT PRIMARY KEY, task_id TEXT NOT NULL REFERENCES tasks(id) ON DELETE CASCADE, title TEXT NOT NULL, done INTEGER NOT NULL DEFAULT 0 CHECK(done IN (0,1)), created_at TEXT NOT NULL);
+    CREATE TABLE IF NOT EXISTS task_dependencies(task_id TEXT NOT NULL REFERENCES tasks(id) ON DELETE CASCADE, depends_on_id TEXT NOT NULL REFERENCES tasks(id) ON DELETE CASCADE, PRIMARY KEY(task_id,depends_on_id), CHECK(task_id != depends_on_id));
+    CREATE TABLE IF NOT EXISTS time_entries(id TEXT PRIMARY KEY, task_id TEXT NOT NULL REFERENCES tasks(id) ON DELETE CASCADE, user_id TEXT NOT NULL REFERENCES users(id), minutes INTEGER NOT NULL CHECK(minutes BETWEEN 1 AND 1440), note TEXT NOT NULL DEFAULT '', worked_on TEXT NOT NULL, created_at TEXT NOT NULL);
+    CREATE TABLE IF NOT EXISTS milestones(id TEXT PRIMARY KEY, project_id TEXT NOT NULL REFERENCES projects(id) ON DELETE CASCADE, title TEXT NOT NULL, due_date TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'open' CHECK(status IN ('open','done')), created_at TEXT NOT NULL);
+    CREATE INDEX IF NOT EXISTS checklist_task ON checklist(task_id);
+    CREATE INDEX IF NOT EXISTS dependency_predecessor ON task_dependencies(depends_on_id);
+    CREATE INDEX IF NOT EXISTS time_task ON time_entries(task_id);
+    CREATE INDEX IF NOT EXISTS time_person_date ON time_entries(user_id,worked_on);
+    CREATE INDEX IF NOT EXISTS milestone_project_date ON milestones(project_id,due_date);`);
   return db;
 }
 export class SQLiteSessionStore extends session.Store {

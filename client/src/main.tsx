@@ -37,8 +37,15 @@ import {
   Menu,
   LoaderCircle,
   Settings2,
+  Milestone,
+  BarChart3,
+  LockKeyhole,
 } from "lucide-react";
 import "./style.css";
+import { TaskPlanning, MilestonesView } from "./Planning";
+import { Reports, type PlanningSummary } from "./Reports";
+import { downloadCSV } from "./csv";
+import { workspaceToday } from "./dates";
 
 type User = {
   id: string;
@@ -77,6 +84,7 @@ type Workspace = {
   projects: Project[];
   tasks: Task[];
   users: User[];
+  taskPlanning?: PlanningSummary[];
   activity: { id: number; name: string; message: string; created_at: string }[];
 };
 type Session = {
@@ -104,11 +112,10 @@ const projectStatuses: Record<string, string> = {
   at_risk: "En riesgo",
   completed: "Completado",
 };
-const today = () => new Date().toLocaleDateString("en-CA");
 const isoDate = (d: Date) =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 const inDays = (n: number) => {
-  const d = new Date();
+  const d = new Date(`${workspaceToday()}T12:00:00`);
   d.setDate(d.getDate() + n);
   return isoDate(d);
 };
@@ -195,6 +202,16 @@ function GoogleLogo() {
   );
 }
 function App() {
+  const sidebarRef = React.useRef<HTMLElement>(null);
+  const [mobile, setMobile] = useState(
+    () => matchMedia("(max-width: 650px)").matches,
+  );
+  useEffect(() => {
+    const media = matchMedia("(max-width: 650px)");
+    const update = () => setMobile(media.matches);
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
   const [taskInitialStatus, setTaskInitialStatus] = useState("todo");
   const [session, setSession] = useState<Session | null>(null),
     [data, setData] = useState<Workspace>({
@@ -220,6 +237,42 @@ function App() {
     [fatal, setFatal] = useState(""),
     [sidebar, setSidebar] = useState(false),
     [notifications, setNotifications] = useState(false);
+  useEffect(() => {
+    if (!sidebar || !mobile) return;
+    const previous = document.activeElement as HTMLElement;
+    const first = () =>
+      sidebarRef.current?.querySelector<HTMLElement>(
+        "button:not(:disabled),a[href]",
+      );
+    first()?.focus();
+    const keydown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSidebar(false);
+      if (event.key === "Tab") {
+        const nodes = sidebarRef.current?.querySelectorAll<HTMLElement>(
+          "button:not(:disabled),a[href]",
+        );
+        if (!nodes?.length) return;
+        const start = nodes[0],
+          end = nodes[nodes.length - 1];
+        if (event.shiftKey && document.activeElement === start) {
+          event.preventDefault();
+          end.focus();
+        }
+        if (!event.shiftKey && document.activeElement === end) {
+          event.preventDefault();
+          start.focus();
+        }
+      }
+    };
+    document.addEventListener("keydown", keydown);
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", keydown);
+      document.body.style.overflow = overflow;
+      if (previous?.offsetParent !== null) previous?.focus();
+    };
+  }, [sidebar, mobile]);
   const notify = (message: string, error = false) =>
     setToast({ message, error });
   const reload = async () => setData(await api<Workspace>("/workspace"));
@@ -289,7 +342,7 @@ function App() {
   };
   const changeStatus = async (t: Task, status: string) => {
     try {
-      await api(`/tasks/${t.id}`, "PUT", { ...t, status });
+      await api(`/tasks/${t.id}/status`, "PATCH", { status });
       await reload();
       notify("Estado actualizado");
     } catch (e) {
@@ -312,7 +365,7 @@ function App() {
   );
   const completed = data.tasks.filter((t) => t.status === "done").length;
   const overdue = data.tasks.filter(
-    (t) => t.status !== "done" && t.due_date < isoDate(new Date()),
+    (t) => t.status !== "done" && t.due_date < workspaceToday(),
   );
   const dueSoon = data.tasks
     .filter((t) => t.status !== "done" && t.due_date <= inDays(7))
@@ -327,7 +380,10 @@ function App() {
       "Responsable",
       "Inicio",
       "Entrega",
-      "Horas",
+      "Horas estimadas",
+      "Horas registradas",
+      "Bloqueada",
+      "Subtareas completadas",
     ];
     const rows = filteredTasks.map((t) => [
       t.title,
@@ -338,25 +394,14 @@ function App() {
       t.start_date,
       t.due_date,
       t.estimate,
+      ((data.taskPlanning || []).find((p) => p.task_id === t.id)
+        ?.total_minutes || 0) / 60,
+      (data.taskPlanning || []).find((p) => p.task_id === t.id)?.blocked
+        ? "Sí"
+        : "No",
+      `${(data.taskPlanning || []).find((p) => p.task_id === t.id)?.checklist_done || 0}/${(data.taskPlanning || []).find((p) => p.task_id === t.id)?.checklist_total || 0}`,
     ]);
-    const safe = (v: unknown) => {
-      let str = String(v);
-      if (/^[=+@\-\t\r]/.test(str)) str = "'" + str;
-      return '"' + str.replaceAll('"', '""') + '"';
-    };
-    const blob = new Blob(
-      [
-        "\uFEFF" +
-          [headers, ...rows].map((r) => r.map(safe).join(",")).join("\r\n"),
-      ],
-      { type: "text/csv;charset=utf-8" },
-    );
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `nexo-tareas-${isoDate(new Date())}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadCSV(`nexo-tareas-${workspaceToday()}.csv`, [headers, ...rows]);
     notify("Reporte exportado");
   };
   if (loading)
@@ -451,7 +496,11 @@ function App() {
       {sidebar && (
         <div className="sidebar-scrim" onClick={() => setSidebar(false)} />
       )}
-      <aside className={`sidebar ${sidebar ? "open" : ""}`}>
+      <aside
+        ref={sidebarRef}
+        inert={mobile && !sidebar}
+        className={`sidebar ${sidebar ? "open" : ""}`}
+      >
         <div className="brand">
           <span className="brand-mark">n</span>nexo
           <span className="brand-dot">.</span>
@@ -471,6 +520,8 @@ function App() {
             ["projects", "Proyectos", FolderKanban],
             ["tasks", "Mis tareas", CheckSquare],
             ["timeline", "Cronograma", CalendarDays],
+            ["milestones", "Hitos", Milestone],
+            ["reports", "Reportes", BarChart3],
             ["team", "Equipo", Users],
           ].map(([id, label, Icon]: any) => (
             <button
@@ -586,6 +637,8 @@ function App() {
                   tasks: selectedProject?.name || "Mis tareas",
                   timeline: "Cronograma",
                   team: "Equipo",
+                  milestones: "Hitos",
+                  reports: "Reportes",
                   integrations: "Integraciones",
                 }[view]
               }
@@ -640,7 +693,7 @@ function App() {
                       <span>{t.title}</span>
                       <small
                         className={
-                          t.due_date < isoDate(new Date()) ? "danger-text" : ""
+                          t.due_date < workspaceToday() ? "danger-text" : ""
                         }
                       >
                         {fmt(t.due_date)}
@@ -689,9 +742,13 @@ function App() {
                       ? selectedProject?.name || "Tu trabajo, en movimiento."
                       : view === "timeline"
                         ? "Una perspectiva más amplia."
-                        : view === "team"
-                          ? "Las personas detrás del progreso."
-                          : "Tus herramientas, juntas."}
+                        : view === "milestones"
+                          ? "Los momentos que marcan el camino."
+                          : view === "reports"
+                            ? "Decisiones con perspectiva."
+                            : view === "team"
+                              ? "Las personas detrás del progreso."
+                              : "Tus herramientas, juntas."}
                 {view === "overview" && <span className="greeting-sun">✺</span>}
               </h1>
               <p>
@@ -704,16 +761,20 @@ function App() {
                         "Prioriza, colabora y da el siguiente paso."
                       : view === "timeline"
                         ? "Anticipa las entregas y mantén los planes en sintonía."
-                        : view === "team"
-                          ? "Distribuye el trabajo y encuentra el equilibrio del equipo."
-                          : "Menos pestañas. Más tiempo para lo que importa."}
+                        : view === "milestones"
+                          ? "Define las entregas clave y celebra cada objetivo alcanzado."
+                          : view === "reports"
+                            ? "Avance, presupuesto y esfuerzo real, en una misma vista."
+                            : view === "team"
+                              ? "Distribuye el trabajo y encuentra el equilibrio del equipo."
+                              : "Menos pestañas. Más tiempo para lo que importa."}
               </p>
             </div>
             <div className="heading-actions">
               {view === "overview" ? (
                 <span className="date-pill">
                   <CalendarDays size={15} />
-                  {fmt(isoDate(new Date()), {
+                  {fmt(workspaceToday(), {
                     day: "numeric",
                     month: "long",
                     year: "numeric",
@@ -769,8 +830,7 @@ function App() {
                   icon={<Clock3 size={21} />}
                   label="Entregas próximas"
                   value={
-                    dueSoon.filter((t) => t.due_date >= isoDate(new Date()))
-                      .length
+                    dueSoon.filter((t) => t.due_date >= workspaceToday()).length
                   }
                   meta="Durante los próximos 7 días"
                   color="orange"
@@ -1164,6 +1224,33 @@ function App() {
                                   }
                                 </small>
                                 <h3>{t.title}</h3>
+                                {(data.taskPlanning || []).find(
+                                  (p) => p.task_id === t.id,
+                                )?.blocked && (
+                                  <span className="task-blocked">
+                                    <LockKeyhole size={11} />
+                                    Bloqueada por predecesora
+                                  </span>
+                                )}
+                                {((data.taskPlanning || []).find(
+                                  (p) => p.task_id === t.id,
+                                )?.checklist_total || 0) > 0 && (
+                                  <span className="task-checklist-count">
+                                    <CheckSquare size={11} />
+                                    {
+                                      (data.taskPlanning || []).find(
+                                        (p) => p.task_id === t.id,
+                                      )?.checklist_done
+                                    }
+                                    /
+                                    {
+                                      (data.taskPlanning || []).find(
+                                        (p) => p.task_id === t.id,
+                                      )?.checklist_total
+                                    }{" "}
+                                    subtareas
+                                  </span>
+                                )}
                                 <p>{t.description}</p>
                                 <span className={`priority ${t.priority}`}>
                                   <Flag size={11} />
@@ -1173,7 +1260,7 @@ function App() {
                               <footer>
                                 <span
                                   className={
-                                    t.due_date < isoDate(new Date()) &&
+                                    t.due_date < workspaceToday() &&
                                     s !== "done"
                                       ? "danger-text"
                                       : ""
@@ -1224,6 +1311,27 @@ function App() {
               projects={data.projects}
               tasks={data.tasks}
               onOpen={openTask}
+            />
+          )}
+          {view === "milestones" && (
+            <MilestonesView
+              projects={data.projects}
+              admin={!!admin}
+              api={api}
+              notify={notify}
+              onChanged={reload}
+            />
+          )}
+          {view === "reports" && (
+            <Reports
+              projects={data.projects}
+              tasks={data.tasks}
+              planning={data.taskPlanning || []}
+              onOpen={(task) => {
+                const found = data.tasks.find((t) => t.id === task.id);
+                if (found) openTask(found);
+              }}
+              onProject={(id) => navigate("tasks", id)}
             />
           )}
           {view === "team" && (
@@ -1484,6 +1592,9 @@ function App() {
       {modal === "task" && (
         <TaskModal
           task={editTask}
+          tasks={data.tasks}
+          currentUserId={user.id}
+          onPlanningChanged={reload}
           defaultStatus={taskInitialStatus}
           defaultProject={
             projectFilter === "all" ? data.projects[0]?.id : projectFilter
@@ -1763,7 +1874,7 @@ function TaskTable({
               )}
               <td>
                 <span
-                  className={`table-date ${t.due_date < isoDate(new Date()) && t.status !== "done" ? "danger-text" : ""}`}
+                  className={`table-date ${t.due_date < workspaceToday() && t.status !== "done" ? "danger-text" : ""}`}
                 >
                   {fmt(t.due_date)}
                 </span>
@@ -1820,7 +1931,7 @@ function Timeline({
   const visible = tasks.filter(
     (t) => t.due_date >= startStr && t.start_date <= endStr,
   );
-  const todayOffset = diff(isoDate(new Date()), startStr);
+  const todayOffset = diff(workspaceToday(), startStr);
   return (
     <div className="panel timeline-panel">
       <div className="timeline-toolbar">
@@ -2027,7 +2138,7 @@ function ProjectModal({
     description: project?.description || "",
     color: project?.color || "#7c69ef",
     status: project?.status || "planning",
-    start_date: project?.start_date || isoDate(new Date()),
+    start_date: project?.start_date || workspaceToday(),
     due_date: project?.due_date || inDays(30),
     budget: project?.budget || 0,
     spent: project?.spent || 0,
@@ -2218,6 +2329,9 @@ function ProjectModal({
 }
 function TaskModal({
   task,
+  tasks,
+  currentUserId,
+  onPlanningChanged,
   defaultStatus,
   defaultProject,
   projects,
@@ -2229,6 +2343,9 @@ function TaskModal({
   notify,
 }: {
   task: Task | null;
+  tasks: Task[];
+  currentUserId: string;
+  onPlanningChanged: () => Promise<void>;
   defaultStatus: string;
   defaultProject: string;
   projects: Project[];
@@ -2246,7 +2363,7 @@ function TaskModal({
     status: task?.status || defaultStatus,
     priority: task?.priority || "medium",
     assignee_id: task?.assignee_id || null,
-    start_date: task?.start_date || isoDate(new Date()),
+    start_date: task?.start_date || workspaceToday(),
     due_date: task?.due_date || inDays(7),
     estimate: task?.estimate || 0,
     drive_url: task?.drive_url || "",
@@ -2604,6 +2721,18 @@ function TaskModal({
           </button>
         </div>
       </form>
+      {task && (
+        <TaskPlanning
+          taskId={task.id}
+          projectId={task.project_id}
+          tasks={tasks}
+          admin={admin}
+          currentUserId={currentUserId}
+          onChanged={onPlanningChanged}
+          notify={notify}
+          api={api}
+        />
+      )}
       {task && (
         <section className="comments-section">
           <h3>

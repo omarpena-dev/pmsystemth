@@ -14,6 +14,7 @@ import {
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { openDatabase, SQLiteSessionStore, seedDemo } from "./db.mjs";
+import { createPlanning } from "./planning.mjs";
 
 const date = z
   .string()
@@ -279,7 +280,16 @@ export function createApp(config = {}) {
         throw apiError(403, "domain");
       const id = profile.sub;
       const old = db.prepare("SELECT tokens FROM users WHERE id=?").get(id);
-      const previous = old?.tokens ? decrypt(old.tokens) : {};
+      let previous = {};
+      if (old?.tokens) {
+        try {
+          previous = decrypt(old.tokens);
+        } catch {
+          // A rotated session secret makes old credentials unreadable. The fresh
+          // ID token and Workspace domain were verified above; reauthorize using
+          // only the newly issued tokens rather than blocking this user's login.
+        }
+      }
       db.prepare(
         "INSERT INTO users(id,name,email,avatar,role,tokens) VALUES(?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET name=excluded.name,email=excluded.email,avatar=excluded.avatar,role=excluded.role,tokens=excluded.tokens",
       ).run(
@@ -331,8 +341,12 @@ export function createApp(config = {}) {
     if (id && !db.prepare("SELECT id FROM users WHERE id=?").get(id))
       throw apiError(400, "Responsable no encontrado");
   };
+  const planning = createPlanning({ db, getTask, getProject, apiError, log });
+  planning.registerRoutes(app, admin);
   app.get("/api/workspace", (_req, res) =>
     res.json({
+      milestones: planning.allMilestones(),
+      taskPlanning: planning.summary(),
       projects: db
         .prepare("SELECT * FROM projects ORDER BY created_at DESC")
         .all(),
@@ -368,6 +382,7 @@ export function createApp(config = {}) {
   app.put("/api/projects/:id", admin, (req, res) => {
     getProject(req.params.id);
     const p = projectSchema.parse(req.body);
+    planning.assertProjectUpdate(req.params.id, p);
     db.prepare(
       "UPDATE projects SET name=?,description=?,color=?,status=?,start_date=?,due_date=?,budget=?,spent=? WHERE id=?",
     ).run(
@@ -413,8 +428,9 @@ export function createApp(config = {}) {
     res.status(201).json(getTask(id));
   });
   app.put("/api/tasks/:id", (req, res) => {
-    getTask(req.params.id);
+    const previous = getTask(req.params.id);
     const t = taskSchema.parse(req.body);
+    planning.assertTaskUpdate(previous, t);
     getProject(t.project_id);
     validateAssignee(t.assignee_id);
     db.prepare(
@@ -434,6 +450,19 @@ export function createApp(config = {}) {
     );
     log(req, `actualizó ${t.title}`);
     res.json(getTask(req.params.id));
+  });
+  app.patch("/api/tasks/:id/status", (req, res) => {
+    const previous = getTask(req.params.id);
+    const { status } = z
+      .object({
+        status: z.enum(["todo", "in_progress", "review", "done"]),
+      })
+      .strict()
+      .parse(req.body);
+    planning.assertTaskUpdate(previous, { ...previous, status });
+    db.prepare("UPDATE tasks SET status=? WHERE id=?").run(status, previous.id);
+    log(req, `actualizó el estado de ${previous.title}`);
+    res.json(getTask(previous.id));
   });
   app.delete("/api/tasks/:id", admin, (req, res) => {
     const t = getTask(req.params.id);

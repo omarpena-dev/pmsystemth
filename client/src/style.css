@@ -3676,3 +3676,92 @@ h2 {
     scroll-behavior: auto !important;
   }
 }
+/* Task planning indicators and accessible semantic colors. */
+.task-blocked,
+.task-checklist-count {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  margin: 7px 0;
+  color: #93684b;
+}
+.task-checklist-count {
+  color: #817298;
+}
+.project-description {
+  color: #71758a;
+}
+.status-badge.in_progress {
+  color: #73529f;
+}
+.status-badge.done {
+  color: #497a5a;
+}
+.status-badge.review {
+  color: #91652e;
+}
+.status-badge.todo {
+  color: #626a80;
+}
+.project-status.active {
+  color: #487552;
+}
+.project-status.at_risk {
+  color: #936327;
+}
+.project-status.planning {
+  color: #5c6b99;
+}
+.project-status.completed {
+  color: #735b9e;
+}
+.priority.high {
+  color: #95622e;
+}
+.priority.urgent {
+  color: #a14d4d;
+}
+.priority.medium {
+  color: #5b6699;
+}
+.priority.low {
+  color: #4d7568;
+}
+.sidebar {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #403b5a transparent;
+}
+.page-heading p,
+.section-heading p,
+.panel-heading p {
+  color: #7c8195;
+}
+.task-card p {
+  color: #797e94;
+}
+.task-table td small {
+  color: #7d839a;
+}
+.table-date {
+  color: #6d7489;
+}
+.stat-card > p {
+  color: #7e8498;
+}
+@media (max-width: 650px) {
+  .sidebar:not(.open) {
+    visibility: hidden;
+  }
+  .sidebar.open {
+    visibility: visible;
+  }
+  .task-blocked,
+  .task-checklist-count {
+    font-size: 9px;
+  }
+  .sidebar.open .nav-item {
+    flex-shrink: 0;
+  }
+}

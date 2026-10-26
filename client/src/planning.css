@@ -1,0 +1,1058 @@
+.plan-task-planning {
+  border-top: 1px solid #eceef4;
+  margin-top: 25px;
+  padding-top: 23px;
+}
+.plan-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+.plan-kicker {
+  font-size: 8px;
+  color: #a79abb;
+  letter-spacing: 1.3px;
+}
+.plan-section-heading h3 {
+  font-size: 17px;
+  margin-top: 7px;
+  color: #655c7c;
+  font-weight: 550;
+}
+.plan-section-heading > svg {
+  color: #b7a7d5;
+}
+.plan-section {
+  border: 1px solid #eceaf3;
+  border-radius: 10px;
+  padding: 17px;
+  margin-bottom: 16px;
+}
+.plan-subheading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 9px;
+}
+.plan-subheading h4,
+.plan-subheading h3 {
+  font-size: 12px;
+  font-weight: 550;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #81758f;
+  margin: 0;
+}
+.plan-subheading h4 svg,
+.plan-subheading h3 svg {
+  color: #a58ac6;
+}
+.plan-counter {
+  font-size: 9px;
+  color: #a69bb8;
+  white-space: nowrap;
+  background: #f5f2fa;
+  border-radius: 5px;
+  padding: 4px 7px;
+}
+.plan-hint {
+  color: #a2a0b3;
+  font-size: 10px;
+  line-height: 1.8;
+  margin: 0;
+}
+.plan-checklist-progress {
+  background: #f0edf7;
+  height: 4px;
+  border-radius: 4px;
+  margin: 13px 0;
+  overflow: hidden;
+}
+.plan-checklist-progress > span {
+  background: #a493d1;
+  border-radius: 4px;
+  height: 100%;
+  display: block;
+  transition: width 0.2s;
+}
+.plan-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+}
+.plan-checklist > li {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-bottom: 1px solid #f1eff7;
+  min-height: 43px;
+  padding: 5px 0;
+}
+.plan-checklist > li:last-child {
+  border-bottom: 0;
+}
+.plan-check-label {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+  line-height: 1.7;
+  color: #827c92;
+  cursor: pointer;
+  min-width: 0;
+}
+.plan-check-label > input,
+.plan-dependency-option > input {
+  accent-color: #9180c9;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  flex-shrink: 0;
+  margin: 0;
+}
+.plan-check-label > span {
+  overflow-wrap: anywhere;
+}
+.plan-item-done .plan-check-label > span {
+  color: #b2adbd;
+  text-decoration: line-through;
+}
+.plan-checklist .icon-btn {
+  width: 25px;
+  height: 25px;
+  color: #b8adc9;
+}
+.plan-checklist .icon-btn:hover {
+  color: #8c6cac;
+  background: #f4effa;
+}
+.plan-inline-edit {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+.plan-inline-edit > input {
+  flex: 1;
+  min-width: 0;
+}
+.plan-add-checklist {
+  display: flex;
+  gap: 8px;
+  margin-top: 13px;
+}
+.plan-add-checklist > input {
+  flex: 1;
+  min-width: 0;
+}
+.plan-add-checklist .btn {
+  font-size: 10px;
+}
+.plan-empty-inline {
+  padding: 10px 0 3px;
+  margin: 0;
+  color: #b2aabd;
+  font-size: 10px;
+  line-height: 1.8;
+}
+.plan-warning,
+.plan-success,
+.plan-error {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 11px;
+  border-radius: 7px;
+  font-size: 10px;
+  line-height: 1.8;
+  margin: 12px 0;
+}
+.plan-warning {
+  background: #fcf5e9;
+  border: 1px solid #f1e4cc;
+  color: #b3976f;
+}
+.plan-warning > svg,
+.plan-success > svg,
+.plan-error > svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.plan-success {
+  background: #f0f7f2;
+  border: 1px solid #e0eee3;
+  color: #8ca894;
+}
+.plan-error {
+  border: 1px solid #eed9de;
+  background: #fff3f5;
+  color: #b37e8d;
+}
+.plan-error > span {
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+.plan-error .plan-link-button {
+  margin-left: auto;
+}
+.plan-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  color: #a497b6;
+  font-size: 11px;
+  padding: 30px 15px;
+}
+.plan-link-button {
+  color: #9675bc;
+  font-size: 10px;
+  padding: 0;
+  white-space: nowrap;
+}
+.plan-dependency-options {
+  border: 1px solid #efecf5;
+  border-radius: 7px;
+  margin: 13px 0 10px;
+  max-height: 190px;
+  overflow: auto;
+}
+.plan-dependency-option {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px;
+  font-size: 10px;
+  color: #8d819c;
+  cursor: pointer;
+  border-bottom: 1px solid #f2eff7;
+}
+.plan-dependency-option:last-child {
+  border-bottom: 0;
+}
+.plan-dependency-option:hover {
+  background: #faf8fd;
+}
+.plan-dependency-option > span {
+  flex: 1;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.plan-task-state {
+  font-size: 8px;
+  padding: 3px 5px;
+  background: #f4f1f8;
+  color: #afa1bd;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.plan-state-done {
+  background: #edf6ef;
+  color: #8eac98;
+}
+.plan-dependency-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+}
+.plan-dependency-actions > .plan-hint {
+  font-size: 9px;
+}
+.plan-dependency-actions > .btn {
+  font-size: 9px;
+}
+.plan-dependent-list {
+  padding: 12px 0 0;
+  margin-top: 13px;
+  border-top: 1px solid #f0edf5;
+}
+.plan-dependent-list > strong {
+  font-size: 9px;
+  font-weight: 500;
+  color: #a398b2;
+  display: block;
+  margin-bottom: 8px;
+}
+.plan-dependent-list > div {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #a397b2;
+  font-size: 10px;
+  line-height: 1.7;
+  padding: 5px 0;
+}
+.plan-dependent-list > div > span {
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+.plan-dependent-list small {
+  color: #bab0c7;
+  font-size: 8px;
+  white-space: nowrap;
+}
+.plan-time-total {
+  font-size: 12px;
+  font-weight: 550;
+  color: #9d88bd;
+  white-space: nowrap;
+}
+.plan-time-form {
+  margin-top: 13px;
+}
+.plan-time-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.plan-time-form label,
+.plan-milestone-editor label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 10px;
+  color: #9d91ad;
+  margin-bottom: 13px;
+}
+.plan-time-form input,
+.plan-milestone-editor input,
+.plan-milestone-editor select {
+  width: 100%;
+  font-size: 11px;
+  min-width: 0;
+}
+.plan-time-form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.plan-time-form-footer .plan-hint {
+  font-size: 9px;
+}
+.plan-time-form-footer .btn {
+  font-size: 9px;
+}
+.plan-time-entries {
+  padding: 0;
+  margin: 16px 0 0;
+  list-style: none;
+  border-top: 1px solid #f0edf5;
+}
+.plan-time-entries > li {
+  padding: 13px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  border-bottom: 1px solid #f4f1f8;
+}
+.plan-time-entries > li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.plan-time-avatar {
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: #f0ebf9;
+  color: #ab97c4;
+  font-size: 9px;
+  font-weight: 550;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.plan-time-entries li > div {
+  min-width: 0;
+  flex: 1;
+}
+.plan-time-entries strong {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 10px;
+  color: #9786a9;
+  font-weight: 500;
+  line-height: 1.7;
+  flex-wrap: wrap;
+}
+.plan-time-entries strong small {
+  color: #bbb0c7;
+  font-size: 8px;
+  font-weight: 400;
+}
+.plan-time-entries p {
+  color: #aaa0b8;
+  font-size: 10px;
+  line-height: 1.7;
+  margin-top: 4px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.plan-time-entries li > b {
+  font-size: 10px;
+  color: #9e8bb6;
+  font-weight: 500;
+  padding-top: 4px;
+  white-space: nowrap;
+}
+.plan-time-entries .icon-btn {
+  width: 23px;
+  height: 23px;
+  margin-top: 0;
+  color: #b8acc7;
+}
+.plan-task-planning input:disabled {
+  background: #faf9fc;
+}
+.plan-milestones-view {
+  max-width: 100%;
+}
+.plan-milestone-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 25px;
+}
+.plan-milestone-stats > div {
+  border: 1px solid #e8e6f0;
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.plan-summary-icon {
+  width: 39px;
+  height: 39px;
+  background: #f2edf9;
+  color: #ad96cb;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.plan-summary-done {
+  background: #eef6f0;
+  color: #95ad9c;
+}
+.plan-summary-late {
+  background: #fcf4e9;
+  color: #c6a680;
+}
+.plan-milestone-stats strong {
+  color: #7e708f;
+  font-size: 26px;
+  font-weight: 550;
+  letter-spacing: -0.5px;
+}
+.plan-milestone-stats small {
+  font-size: 10px;
+  letter-spacing: 0;
+  color: #b1a7be;
+  display: block;
+  margin-top: 5px;
+  font-weight: 400;
+}
+.plan-milestone-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+.plan-milestone-toolbar > div {
+  display: flex;
+  gap: 9px;
+  min-width: 0;
+}
+.plan-milestone-toolbar select {
+  font-size: 10px;
+  color: #a095b1;
+  padding: 10px;
+  max-width: 230px;
+}
+.plan-milestone-editor {
+  background: #fff;
+  border: 1px solid #e5def0;
+  border-radius: 11px;
+  padding: 21px;
+  margin-bottom: 24px;
+  scroll-margin-top: 92px;
+}
+.plan-milestone-editor .plan-subheading h3 {
+  font-size: 14px;
+}
+.plan-milestone-editor > .plan-hint {
+  margin-bottom: 18px;
+}
+.plan-milestone-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 17px;
+}
+.plan-milestone-fields label:first-child {
+  grid-column: 1 / -1;
+}
+.plan-milestone-fields label:nth-child(2) {
+  grid-column: 1 / -1;
+}
+.plan-editor-footer {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border-top: 1px solid #f0edf6;
+  padding-top: 18px;
+}
+.plan-editor-footer .plan-hint {
+  font-size: 9px;
+}
+.plan-flex-spacer {
+  flex: 1;
+}
+.plan-milestone-project {
+  border: 1px solid #e8e6f0;
+  background: #fff;
+  border-radius: 11px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.plan-milestone-project > header {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 19px 22px;
+  border-bottom: 1px solid #efedf5;
+  background: #fdfcfe;
+}
+.plan-milestone-project > header > i {
+  width: 7px;
+  height: 7px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.plan-milestone-project > header > h3 {
+  font-size: 13px;
+  font-weight: 550;
+  color: #90829e;
+}
+.plan-milestone-project > header > span {
+  margin-left: auto;
+  font-size: 9px;
+  color: #b7acc3;
+  white-space: nowrap;
+}
+.plan-milestone-project > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.plan-milestone-project li {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 19px 22px;
+  border-bottom: 1px solid #f1eef6;
+}
+.plan-milestone-project li:last-child {
+  border-bottom: 0;
+}
+.plan-milestone-marker {
+  width: 37px;
+  height: 37px;
+  background: color-mix(in srgb, var(--milestone-color) 8%, white);
+  color: var(--milestone-color);
+  border-radius: 10px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+.plan-milestone-description {
+  flex: 1;
+  min-width: 0;
+}
+.plan-milestone-description h4 {
+  font-size: 12px;
+  font-weight: 500;
+  margin: 0;
+  color: #8a7d9b;
+  overflow-wrap: anywhere;
+}
+.plan-milestone-description > span {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  font-size: 9px;
+  color: #b4a9c1;
+  margin-top: 8px;
+}
+.plan-milestone-description .plan-overdue-date {
+  color: #c19d85;
+}
+.plan-milestone-done .plan-milestone-description h4 {
+  color: #aaa0b7;
+}
+.plan-milestone-done .plan-milestone-marker {
+  background: #eff6f1;
+  color: #a0b3a6;
+}
+.plan-milestone-status {
+  font-size: 9px;
+  color: #b0a1c0;
+  padding: 5px 8px;
+  border-radius: 5px;
+  background: #f4f0f9;
+  white-space: nowrap;
+}
+.plan-milestone-status.plan-status-done {
+  background: #eef6f0;
+  color: #9db1a5;
+}
+.plan-milestone-status.plan-status-late {
+  background: #fcf3e7;
+  color: #c2a17d;
+}
+.plan-milestone-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 6px;
+}
+.plan-milestone-actions .icon-btn {
+  color: #b3a6c2;
+  width: 27px;
+  height: 27px;
+}
+.plan-milestone-actions .icon-btn:hover {
+  color: #9678b9;
+  background: #f5f1fa;
+}
+.plan-milestones-empty {
+  border: 1px dashed #e4dced;
+  border-radius: 12px;
+  padding: 55px 25px;
+  text-align: center;
+  background: #fdfcff;
+}
+.plan-milestones-empty > span {
+  width: 60px;
+  height: 60px;
+  background: #f3edf9;
+  border-radius: 16px;
+  color: #c0aad6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+.plan-milestones-empty h3 {
+  font-size: 19px;
+  font-weight: 500;
+  color: #9c88b1;
+}
+.plan-milestones-empty > p {
+  font-size: 11px;
+  color: #b6a9c3;
+  line-height: 1.9;
+  margin: 12px auto 20px;
+  max-width: 390px;
+}
+.plan-milestone-note {
+  margin-top: 19px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #b6a9c4;
+  font-size: 9px;
+  line-height: 1.9;
+  padding: 2px;
+}
+.plan-milestone-note > svg {
+  flex-shrink: 0;
+}
+.plan-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+@media (max-width: 900px) {
+  .plan-milestone-stats {
+    gap: 12px;
+  }
+  .plan-milestone-stats > div {
+    gap: 10px;
+    padding: 17px;
+  }
+  .plan-summary-icon {
+    width: 32px;
+    height: 32px;
+  }
+  .plan-milestone-stats strong {
+    font-size: 23px;
+  }
+  .plan-milestone-stats small {
+    font-size: 9px;
+  }
+  .plan-milestone-project li {
+    padding: 18px;
+    gap: 10px;
+  }
+  .plan-milestone-actions {
+    gap: 0;
+  }
+  .plan-milestone-actions .icon-btn {
+    width: 24px;
+  }
+}
+@media (max-width: 650px) {
+  .plan-section {
+    padding: 14px;
+  }
+  .plan-section-heading h3 {
+    font-size: 16px;
+  }
+  .plan-section-heading {
+    margin-bottom: 18px;
+  }
+  .plan-subheading h4 {
+    font-size: 11px;
+  }
+  .plan-counter {
+    font-size: 8px;
+  }
+  .plan-check-label {
+    font-size: 10px;
+  }
+  .plan-hint {
+    font-size: 9px;
+  }
+  .plan-add-checklist {
+    gap: 6px;
+  }
+  .plan-add-checklist .btn {
+    padding: 8px;
+    font-size: 9px;
+    gap: 4px;
+  }
+  .plan-add-checklist .btn > svg {
+    width: 13px;
+  }
+  .plan-dependency-option {
+    padding: 9px 8px;
+    font-size: 9px;
+    gap: 7px;
+    flex-wrap: wrap;
+  }
+  .plan-dependency-option > span {
+    flex-basis: calc(100% - 24px);
+  }
+  .plan-task-state {
+    margin-left: 21px;
+  }
+  .plan-dependency-actions {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .plan-dependency-actions > .btn {
+    align-self: flex-end;
+    font-size: 8px;
+  }
+  .plan-dependent-list > div {
+    font-size: 9px;
+    flex-wrap: wrap;
+  }
+  .plan-dependent-list small {
+    font-size: 7px;
+  }
+  .plan-time-fields {
+    gap: 10px;
+  }
+  .plan-time-form label {
+    font-size: 9px;
+  }
+  .plan-time-form-footer .plan-hint {
+    font-size: 8px;
+    max-width: 120px;
+  }
+  .plan-time-form-footer .btn {
+    font-size: 8px;
+    padding: 9px 8px;
+    gap: 4px;
+  }
+  .plan-time-entries li > b {
+    font-size: 9px;
+  }
+  .plan-time-entries > li {
+    gap: 7px;
+  }
+  .plan-time-entries strong {
+    font-size: 9px;
+    gap: 3px;
+  }
+  .plan-time-entries strong small {
+    font-size: 7px;
+    width: 100%;
+  }
+  .plan-time-entries p {
+    font-size: 9px;
+  }
+  .plan-time-avatar {
+    width: 24px;
+    height: 24px;
+    font-size: 8px;
+  }
+  .plan-time-entries .icon-btn {
+    width: 20px;
+    height: 22px;
+    padding: 3px;
+  }
+  .plan-milestone-stats {
+    gap: 9px;
+    margin-bottom: 20px;
+  }
+  .plan-milestone-stats > div {
+    padding: 13px 10px;
+    gap: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .plan-milestone-stats strong {
+    font-size: 24px;
+  }
+  .plan-milestone-stats small {
+    font-size: 8px;
+    line-height: 1.8;
+    min-height: 28px;
+    max-width: 75px;
+  }
+  .plan-summary-icon {
+    width: 29px;
+    height: 29px;
+    border-radius: 8px;
+  }
+  .plan-summary-icon > svg {
+    width: 17px;
+  }
+  .plan-milestone-toolbar {
+    gap: 11px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .plan-milestone-toolbar > div {
+    gap: 7px;
+    flex: 1;
+  }
+  .plan-milestone-toolbar select {
+    font-size: 9px;
+    padding: 9px 7px;
+    max-width: 175px;
+  }
+  .plan-milestone-toolbar > .btn {
+    padding: 9px 12px;
+    font-size: 10px;
+  }
+  .plan-milestone-editor {
+    padding: 17px;
+  }
+  .plan-milestone-editor .plan-subheading h3 {
+    font-size: 12px;
+  }
+  .plan-milestone-editor .plan-hint {
+    font-size: 9px;
+  }
+  .plan-milestone-fields {
+    gap: 0 11px;
+  }
+  .plan-milestone-editor label {
+    font-size: 9px;
+  }
+  .plan-milestone-editor input,
+  .plan-milestone-editor select {
+    font-size: 10px;
+    padding: 10px;
+  }
+  .plan-editor-footer {
+    flex-wrap: wrap;
+    gap: 7px;
+    padding-top: 15px;
+  }
+  .plan-editor-footer > .plan-hint {
+    font-size: 8px;
+    width: 100%;
+  }
+  .plan-editor-footer > .btn {
+    font-size: 9px;
+    padding: 9px 10px;
+  }
+  .plan-milestone-project > header {
+    padding: 17px;
+    gap: 7px;
+  }
+  .plan-milestone-project > header > h3 {
+    font-size: 12px;
+  }
+  .plan-milestone-project > header > span {
+    font-size: 8px;
+  }
+  .plan-milestone-project li {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 17px;
+  }
+  .plan-milestone-marker {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+  .plan-milestone-marker > svg {
+    width: 16px;
+  }
+  .plan-milestone-description h4 {
+    font-size: 11px;
+    line-height: 1.7;
+  }
+  .plan-milestone-description > span {
+    font-size: 8px;
+    margin-top: 5px;
+  }
+  .plan-milestone-status {
+    font-size: 8px;
+    padding: 4px 6px;
+    margin-left: 42px;
+  }
+  .plan-milestone-actions {
+    margin-left: auto;
+  }
+  .plan-milestone-actions .icon-btn {
+    width: 26px;
+    height: 26px;
+  }
+  .plan-milestones-empty {
+    padding: 36px 20px;
+  }
+  .plan-milestones-empty h3 {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  .plan-milestones-empty > p {
+    font-size: 10px;
+  }
+  .plan-milestone-note {
+    font-size: 8px;
+    align-items: flex-start;
+  }
+  .plan-milestone-note > svg {
+    margin-top: 2px;
+    width: 13px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plan-checklist-progress > span {
+    transition: none;
+  }
+}
+
+/* Keep functional text legible on the light workspace surfaces. */
+.plan-hint,
+.plan-time-form-footer .plan-hint,
+.plan-dependency-actions > .plan-hint {
+  color: #797286;
+}
+.plan-counter {
+  color: #7d6c91;
+}
+.plan-check-label,
+.plan-dependency-option,
+.plan-subheading h4,
+.plan-subheading h3 {
+  color: #6f617e;
+}
+.plan-empty-inline,
+.plan-milestone-note {
+  color: #887b96;
+}
+.plan-item-done .plan-check-label > span {
+  color: #8d8499;
+}
+.plan-task-state {
+  color: #80728f;
+}
+.plan-state-done {
+  color: #5f826b;
+}
+.plan-warning {
+  color: #8d6b3c;
+}
+.plan-success {
+  color: #5a7d63;
+}
+.plan-error {
+  color: #9a596c;
+}
+.plan-dependent-list > strong,
+.plan-dependent-list > div {
+  color: #897796;
+}
+.plan-dependent-list small {
+  color: #8f809d;
+}
+.plan-time-form label,
+.plan-milestone-editor label {
+  color: #84718f;
+}
+.plan-time-entries strong,
+.plan-time-entries li > b {
+  color: #867092;
+}
+.plan-time-entries strong small,
+.plan-time-entries p {
+  color: #908298;
+}
+.plan-milestone-stats strong {
+  color: #685676;
+}
+.plan-milestone-stats small,
+.plan-milestone-toolbar select {
+  color: #8b789d;
+}
+.plan-milestone-project > header > h3,
+.plan-milestone-description h4 {
+  color: #766184;
+}
+.plan-milestone-project > header > span,
+.plan-milestone-description > span {
+  color: #93829e;
+}
+.plan-milestone-done .plan-milestone-description h4 {
+  color: #8c7a98;
+}
+.plan-milestone-description .plan-overdue-date {
+  color: #9e7559;
+}
+.plan-milestone-status {
+  color: #8a729e;
+}
+.plan-milestone-status.plan-status-done {
+  color: #62846e;
+}
+.plan-milestone-status.plan-status-late {
+  color: #9a764e;
+}
+.plan-milestones-empty h3 {
+  color: #89709f;
+}
+.plan-milestones-empty > p {
+  color: #9b87ac;
+}
