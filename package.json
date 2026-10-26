@@ -1,0 +1,54 @@
+{
+  "name": "nexo-pmsystemth",
+  "version": "1.0.0",
+  "description": "Gestión interna de proyectos con Google Workspace",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env server/index.mjs",
+    "dev:ui": "vite",
+    "build": "tsc && vite build",
+    "start": "node --env-file-if-exists=.env server/index.mjs",
+    "test": "node --test tests/api.test.mjs",
+    "test:e2e": "playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omarpena-dev/pmsystemth.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/omarpena-dev/pmsystemth/issues"
+  },
+  "homepage": "https://github.com/omarpena-dev/pmsystemth#readme",
+  "private": true,
+  "engines": {
+    "node": ">=24.0.0 <25"
+  },
+  "dependencies": {
+    "express": "^5.3.0",
+    "express-session": "^1.19.0",
+    "googleapis": "^188.0.0",
+    "helmet": "^8.3.0",
+    "lucide-react": "^1.61.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@types/express": "^5.0.6",
+    "@types/express-session": "^1.19.0",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "prettier": "^3.9.10",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5"
+  }
+}

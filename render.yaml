@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: nexo-pmsystemth
+    runtime: node
+    plan: starter
+    region: oregon
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    disk:
+      name: nexo-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: 24.19.0
+      - key: NODE_ENV
+        value: production
+      - key: DEMO_MODE
+        value: "false"
+      - key: DATABASE_PATH
+        value: /var/data/nexo.sqlite
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_WORKSPACE_DOMAIN
+        value: timhortonsmx.com
+      - key: PM_EMAILS
+        value: omar.pena@timhortonsmx.com
